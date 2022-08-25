@@ -1,0 +1,35 @@
+logger:
+  Development: true
+  DisableCaller: false
+  DisableStacktrace: false
+  DevMode: false
+  Encoding: json
+  Level: info
+
+application:
+  Name: {{cookiecutter.service_name_slug}}
+  Version: {{cookiecutter.version}}
+
+jaeger:
+  enable: true
+  serviceName: {{cookiecutter.jaeger_name}}
+  hostPort: "localhost:6831"
+  logSpans: false
+
+probes:
+  readinessPath: /ready
+  livenessPath: /live
+  port: :3001
+  pprof: :6001
+  prometheusPath: /metrics
+  prometheusPort: 8001
+  checkIntervalSeconds: 10
+
+postgres:
+  Host: localhost
+  Port: 5439
+  User: postgres
+  Password: postgres
+  Dbname: postgres
+  Sslmode: false
+  PgDriver: pgx

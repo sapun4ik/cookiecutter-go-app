@@ -1,0 +1,16 @@
+logger:
+  Development: true
+  DisableCaller: false
+  DisableStacktrace: false
+  DevMode: true
+  Encoding: console
+  Level: debug
+
+postgres:
+  Host: localhost
+  Port: 5439
+  User: postgres
+  Password: postgres
+  Dbname: postgres
+  Sslmode: false
+  PgDriver: pgx

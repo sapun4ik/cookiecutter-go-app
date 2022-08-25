@@ -1,0 +1,22 @@
+logger:
+  Development: true
+  DisableCaller: false
+  DisableStacktrace: false
+  DevMode: false
+  Encoding: console
+  Level: debug
+
+postgres:
+  Host: postgres
+  Port: 5432
+  User: postgres
+  Password: postgres
+  Dbname: postgres
+  Sslmode: false
+  PgDriver: pgx
+
+jaeger:
+  enable: true
+  serviceName: {{cookiecutter.jaeger_name}}
+  hostPort: "jaeger_container:6831"
+  logSpans: false

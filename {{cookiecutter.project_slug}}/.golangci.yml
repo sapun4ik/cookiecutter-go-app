@@ -1,0 +1,52 @@
+run:
+  timeout: 1m
+
+linters:
+  disable-all: true
+  enable:
+    #format
+    - gofmt
+    - goimports
+    #complexity
+    - gocyclo
+    - funlen
+    #style
+    - nakedret
+    - gochecknoglobals
+    - gochecknoinits
+    - gosimple
+    - goconst
+    - unconvert
+    - gocritic
+    #comment
+    - misspell
+    #unused
+    - varcheck
+    - unused
+    - deadcode
+    - unparam
+    - ineffassign
+    #performance
+    - prealloc
+    #bugs
+    - exportloopref
+    - gosec
+    - errorlint
+    - errcheck
+    - staticcheck
+    #metalinter
+    - staticcheck
+    - govet
+    - revive
+
+issues:
+  exclude-rules:
+    - path: (pkg/logger/logger.go)
+      linters:
+        - gochecknoglobals
+    - path: (pkg/config/config.go)
+      linters:
+        - gochecknoglobals
+    - path: (internal/app/app.go)
+      linters:
+        - funlen
