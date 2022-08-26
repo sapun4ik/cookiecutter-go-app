@@ -11,7 +11,11 @@
 
 Use `make swag` to generate docs(required), make local` to run docker compose, `make run` to run the project, `make lint` to check code with linter.
 
+### Hot reload
+ 
+First step install nodemon like this -> npm i nodemon -g
 
+Run `nodemon -x go run main.go --signal SIGTERM -e go --verbose`
 
 ### Jaeger UI:
 
