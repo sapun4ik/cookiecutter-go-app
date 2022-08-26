@@ -35,38 +35,42 @@ type Config struct {
 
 // Server config struct.
 type AppConfig struct {
-	Version string
-	Name    string
-	Profile string
+	Version string `mapstructure:"version"`
+	Name    string `mapstructure:"name"`
+	Profile string `mapstructure:"profile"`
 }
 
 type HTTPConfig struct {
 	Port               string        `mapstructure:"port"`
-	ReadTimeout        time.Duration `mapstructure:"read_timeout"`
-	WriteTimeout       time.Duration `mapstructure:"write_timeout"`
-	MaxHeaderMegabytes int           `mapstructure:"max_header_megabytes"`
+	ReadTimeout        time.Duration `mapstructure:"readTimeout"`
+	WriteTimeout       time.Duration `mapstructure:"writeTimeout"`
+	MaxHeaderMegabytes int           `mapstructure:"maxHeaderMegabytes"`
 	IgnoreLogUrls      []string      `mapstructure:"ignoreLogUrls"`
 }
 
 // LoggerConfig config.
 type LoggerConfig struct {
-	Development       bool
-	DisableCaller     bool
-	DisableStacktrace bool
-	DevMode           bool
-	Encoding          string
-	Level             string
+	Development       bool   `mapstructure:"development"`
+	DisableCaller     bool   `mapstructure:"disableCaller"`
+	DisableStacktrace bool   `mapstructure:"disableStacktrace"`
+	DevMode           bool   `mapstructure:"devMode"`
+	Encoding          string `mapstructure:"encoding"`
+	Level             string `mapstructure:"level"`
 }
 
 // Postgresql config.
 type PostgresConfig struct {
-	Host     string
-	Port     string
-	User     string
-	Password string
-	Dbname   string
-	SSLMode  bool
-	PgDriver string
+	Host            string        `mapstructure:"host"`
+	Port            string        `mapstructure:"port"`
+	User            string        `mapstructure:"user"`
+	Password        string        `mapstructure:"password"`
+	DBName          string        `mapstructure:"dbName"`
+	SSLMode         bool          `mapstructure:"sslMode"`
+	PGDriver        string        `mapstructure:"pgDriver"`
+	MaxOpenConns    int           `mapstructure:"maxOpenConns"`
+	ConnMaxLifetime time.Duration `mapstructure:"connMaxLifetime"`
+	MaxIdleConns    int           `mapstructure:"maxIdleConns"`
+	ConnMaxIdleTime time.Duration `mapstructure:"connMaxIdleTime"`
 }
 
 // Init populates Config struct with values from config file
@@ -135,8 +139,8 @@ func setFromEnv(cfg *Config) {
 
 func populateDefaults() {
 	viper.SetDefault("http.port", defaultHTTPPort)
-	viper.SetDefault("http.max_header_megabytes", defaultHTTPMaxHeaderMegabytes)
+	viper.SetDefault("http.maxHeaderMegabytes", defaultHTTPMaxHeaderMegabytes)
 	viper.SetDefault("http.ignoreLogUrls", ignoreLogUrls)
-	viper.SetDefault("http.read_timeout", defaultHTTPRWTimeout)
-	viper.SetDefault("http.write_timeout", defaultHTTPRWTimeout)
+	viper.SetDefault("http.readTimeout", defaultHTTPRWTimeout)
+	viper.SetDefault("http.writeTimeout", defaultHTTPRWTimeout)
 }

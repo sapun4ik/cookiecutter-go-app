@@ -33,3 +33,7 @@ postgres:
   Dbname: postgres
   Sslmode: false
   PgDriver: pgx
+  MaxOpenConns: 60
+  ConnMaxLifetime: 120
+  MaxIdleConns: 30
+  ConnMaxIdleTime: 20

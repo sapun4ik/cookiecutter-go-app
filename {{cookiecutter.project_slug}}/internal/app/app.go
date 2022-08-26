@@ -65,11 +65,15 @@ func (a *App) Run() error {
 	defer a.psqlDB.Close()
 
 	a.log.Infof(
-		"Postgres connected: host=%s port=%s user=%s dbname=%s",
+		"Postgres connected: host=%s port=%s user=%s dbname=%s connMaxLifetime=%s connMaxIdleTime=%s maxIdleConns=%d maxOpenConns=%d",
 		a.cfg.Postgres.Host,
 		a.cfg.Postgres.Port,
 		a.cfg.Postgres.User,
-		a.cfg.Postgres.Dbname,
+		a.cfg.Postgres.DBName,
+		a.cfg.Postgres.ConnMaxLifetime,
+		a.cfg.Postgres.ConnMaxIdleTime,
+		a.cfg.Postgres.MaxIdleConns,
+		a.cfg.Postgres.MaxOpenConns,
 	)
 
 	// enable tracing
