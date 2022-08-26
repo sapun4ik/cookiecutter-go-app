@@ -15,7 +15,7 @@ Use `make swag` to generate docs(required), make local` to run docker compose, `
  
 First step install nodemon like this -> npm i nodemon -g
 
-Run `nodemon -x go run main.go --signal SIGTERM -e go --verbose`
+Run `nodemon -x go run cmd/main.go --signal SIGTERM -e go --verbose`
 
 ### Jaeger UI:
 
