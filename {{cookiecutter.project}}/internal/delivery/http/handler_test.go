@@ -7,6 +7,7 @@ import (
 
 	"{{cookiecutter.module_path}}/internal/metrics"
 	mock_metrics "{{cookiecutter.module_path}}/internal/metrics/mocks"
+	"{{cookiecutter.module_path}}/internal/service"
 	"{{cookiecutter.module_path}}/pkg/config"
 	"{{cookiecutter.module_path}}/pkg/logger"
 	"github.com/golang/mock/gomock"
@@ -15,7 +16,7 @@ import (
 
 func TestNewHandler(t *testing.T) {
 
-	h := NewHandler(logger.NewAPILogger(&config.Config{}), &metrics.ServiceMetrics{})
+	h := NewHandler(logger.NewAPILogger(&config.Config{}), &metrics.ServiceMetrics{}, &service.Services{})
 
 	require.IsType(t, &Handler{}, h)
 }
@@ -33,7 +34,7 @@ func TestNewHandler_Init(t *testing.T) {
 	mockMetrics := mock_metrics.NewMockMetrics(c)
 	mockBehavior(mockMetrics)
 
-	h := NewHandler(logger.NewAPILogger(&config.Config{}), mockMetrics)
+	h := NewHandler(logger.NewAPILogger(&config.Config{}), mockMetrics, &service.Services{})
 
 	router := h.Init(&config.Config{})
 

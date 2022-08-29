@@ -3,7 +3,9 @@ package http
 import (
 	"net/http"
 
+	v1 "{{cookiecutter.module_path}}/internal/delivery/http/v1"
 	"{{cookiecutter.module_path}}/internal/metrics"
+	"{{cookiecutter.module_path}}/internal/service"
 	"{{cookiecutter.module_path}}/pkg/config"
 	"{{cookiecutter.module_path}}/pkg/logger"
 	"{{cookiecutter.module_path}}/pkg/tracing"
@@ -18,12 +20,13 @@ import (
 )
 
 type Handler struct {
-	log     logger.Logger
-	metrics metrics.Metrics
+	log      logger.Logger
+	metrics  metrics.Metrics
+	services *service.Services
 }
 
-func NewHandler(log logger.Logger, metrics metrics.Metrics) *Handler {
-	return &Handler{log: log, metrics: metrics}
+func NewHandler(log logger.Logger, metrics metrics.Metrics, services *service.Services) *Handler {
+	return &Handler{log: log, metrics: metrics, services: services}
 }
 
 func (h *Handler) Init(cfg *config.Config) *gin.Engine {
@@ -39,7 +42,17 @@ func (h *Handler) Init(cfg *config.Config) *gin.Engine {
 
 	router.GET("/ping", h.Ping)
 
+	h.initAPI(router)
+
 	return router
+}
+
+func (h *Handler) initAPI(router *gin.Engine) {
+	handlerV1 := v1.NewHandler(h.log, h.metrics, h.services)
+	api := router.Group("/api")
+	{
+		handlerV1.Init(api)
+	}
 }
 
 // Ping			 godoc

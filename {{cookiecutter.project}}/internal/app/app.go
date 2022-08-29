@@ -9,7 +9,9 @@ import (
 
 	delivery "{{cookiecutter.module_path}}/internal/delivery/http"
 	"{{cookiecutter.module_path}}/internal/metrics"
+	"{{cookiecutter.module_path}}/internal/repository"
 	"{{cookiecutter.module_path}}/internal/server"
+	"{{cookiecutter.module_path}}/internal/service"
 	"{{cookiecutter.module_path}}/pkg/config"
 	"{{cookiecutter.module_path}}/pkg/logger"
 	"{{cookiecutter.module_path}}/pkg/middlewares"
@@ -91,7 +93,13 @@ func (a *App) Run() error {
 	a.middlewareManager = middlewares.NewMiddlewareManager(a.log, a.cfg, a.getHTTPMetricsCb())
 	a.metrics = metrics.NewServiceMetrics(a.cfg)
 
-	handlers := delivery.NewHandler(a.log, a.metrics)
+	// Services, Repos & API Handlers
+	repos := repository.NewRepositories(a.psqlDB)
+	services := service.NewServices(service.Deps{
+		Repos: repos,
+	})
+
+	handlers := delivery.NewHandler(a.log, a.metrics, services)
 
 	// HTTP Server
 	srv := server.NewServer(a.cfg, handlers.Init(a.cfg))

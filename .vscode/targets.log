@@ -10,7 +10,7 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 make: *** No rule to make target `all'.  Stop.
 
 
-# Make data base, printed on Mon Aug 29 15:39:42 2022
+# Make data base, printed on Mon Aug 29 22:34:32 2022
 
 # Variables
 
@@ -22,7 +22,6 @@ make: *** No rule to make target `all'.  Stop.
 NVM_INC = /Users/sapun4ik/.nvm/versions/node/v16.16.0/include/node
 # automatic
 ?D = $(patsubst %/,%,$(dir $?))
- 
 # environment
 GRADLE_HOME = /Users/sapun4ik/.sdkman/candidates/gradle/current
 # automatic
@@ -119,6 +118,7 @@ LESS = -R
 %D = $(patsubst %/,%,$(dir $%))
 # default
 MAKE_COMMAND := /Applications/Xcode.app/Contents/Developer/usr/bin/make
+ 
 # default
 .VARIABLES := 
 # environment
@@ -138,7 +138,6 @@ MFLAGS = -Rrqp
 # environment
 NVM_DIR = /Users/sapun4ik/.nvm
 # environment
- 
 XPC_SERVICE_NAME = application.com.microsoft.VSCode.8696689007.8696689014
 # automatic
 +D = $(patsubst %/,%,$(dir $+))
@@ -255,7 +254,6 @@ GNUmakefile:
 # strcache size: total = 0 / max = 0 / min = 4096 / avg = 0
 # strcache free: total = 0 / max = 0 / min = 4096 / avg = 0
 
-# Finished Make data base on Mon Aug 29 15:39:42 2022
- 
+# Finished Make data base on Mon Aug 29 22:34:32 2022
 
  
