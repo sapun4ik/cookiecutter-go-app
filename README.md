@@ -14,3 +14,5 @@ Cookiecutter 2.1.1 or higher)::
 Generate a Python package project::
 
     cookiecutter https://github.com/sapun4ik/cookiecutter-go-app.git
+	or
+	cookiecutter cookiecutter-go-app

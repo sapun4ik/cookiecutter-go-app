@@ -19,10 +19,10 @@ import (
 
 type Handler struct {
 	log     logger.Logger
-	metrics *metrics.SearchMicroserviceMetrics
+	metrics metrics.Metrics
 }
 
-func NewHandler(log logger.Logger, metrics *metrics.SearchMicroserviceMetrics) *Handler {
+func NewHandler(log logger.Logger, metrics metrics.Metrics) *Handler {
 	return &Handler{log: log, metrics: metrics}
 }
 
@@ -56,7 +56,7 @@ func (h *Handler) Init(cfg *config.Config) *gin.Engine {
 func (h *Handler) Ping(ctx *gin.Context) {
 	_, span := tracing.StartHTTPServerTracerSpan(ctx, "pingPong")
 	defer span.Finish()
-	h.metrics.HTTPSuccessPingRequests.Inc()
+	h.metrics.HTTPSuccessPingRequestsInc()
 	ctx.String(http.StatusOK, "pong")
 	span.LogFields(log.String("ping", "pong"))
 }

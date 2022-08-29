@@ -9,25 +9,42 @@ import (
 	"github.com/prometheus/client_golang/prometheus/promauto"
 )
 
-type SearchMicroserviceMetrics struct {
-	SuccessHTTPRequests prometheus.Counter
-	ErrorHTTPRequests   prometheus.Counter
-
-	HTTPSuccessPingRequests prometheus.Counter
+//go:generate mockgen -source=metrics.go -destination=mocks/mock.go
+type Metrics interface {
+	SuccessHTTPRequestsInc()
+	ErrorHTTPRequestsInc()
+	HTTPSuccessPingRequestsInc()
 }
 
-func NewSearchMicroserviceMetrics(cfg *config.Config) *SearchMicroserviceMetrics {
-	return &SearchMicroserviceMetrics{
+type ServiceMetrics struct {
+	successHTTPRequests     prometheus.Counter
+	errorHTTPRequests       prometheus.Counter
+	httpSuccessPingRequests prometheus.Counter
+}
 
-		SuccessHTTPRequests: promauto.NewCounter(prometheus.CounterOpts{
+func (l ServiceMetrics) SuccessHTTPRequestsInc() {
+	l.successHTTPRequests.Inc()
+}
+
+func (l ServiceMetrics) ErrorHTTPRequestsInc() {
+	l.errorHTTPRequests.Inc()
+}
+
+func (l ServiceMetrics) HTTPSuccessPingRequestsInc() {
+	l.httpSuccessPingRequests.Inc()
+}
+
+func NewServiceMetrics(cfg *config.Config) Metrics {
+	return &ServiceMetrics{
+		successHTTPRequests: promauto.NewCounter(prometheus.CounterOpts{
 			Name: fmt.Sprintf("%s_success_http_requests_total", cfg.Application.Name),
 			Help: "The total number of success http requests",
 		}),
-		ErrorHTTPRequests: promauto.NewCounter(prometheus.CounterOpts{
+		errorHTTPRequests: promauto.NewCounter(prometheus.CounterOpts{
 			Name: fmt.Sprintf("%s_error_http_requests_total", cfg.Application.Name),
 			Help: "The total number of error http requests",
 		}),
-		HTTPSuccessPingRequests: promauto.NewCounter(prometheus.CounterOpts{
+		httpSuccessPingRequests: promauto.NewCounter(prometheus.CounterOpts{
 			Name: fmt.Sprintf("%s_success_http_ping_requests_total", cfg.Application.Name),
 			Help: "The total number of s_success_http_ping_requests_total requests",
 		}),

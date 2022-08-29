@@ -30,7 +30,7 @@ type App struct {
 	cfg               *config.Config
 	metricsServer     *server.Metrics
 	middlewareManager middlewares.MiddlewareManager
-	metrics           *metrics.SearchMicroserviceMetrics
+	metrics           metrics.Metrics
 	healthCheckServer *server.HealthCheck
 	psqlDB            *sqlx.DB
 }
@@ -39,9 +39,9 @@ func NewApp(log logger.Logger, cfg *config.Config) *App {
 	return &App{log: log, doneCh: make(chan struct{}), cfg: cfg}
 }
 
-// @title {{cookiecutter.project_name}} API
+// @title Twino API
 // @version 1.0
-// @description REST API for {{cookiecutter.project_name}}
+// @description REST API for Twino
 
 // @host localhost:8000
 // @BasePath /api/v1/
@@ -89,7 +89,7 @@ func (a *App) Run() error {
 	}
 
 	a.middlewareManager = middlewares.NewMiddlewareManager(a.log, a.cfg, a.getHTTPMetricsCb())
-	a.metrics = metrics.NewSearchMicroserviceMetrics(a.cfg)
+	a.metrics = metrics.NewServiceMetrics(a.cfg)
 
 	handlers := delivery.NewHandler(a.log, a.metrics)
 
@@ -143,9 +143,9 @@ func (a *App) waitShootDown(duration time.Duration) {
 func (a *App) getHTTPMetricsCb() middlewares.MiddlewareMetricsCb {
 	return func(err error) {
 		if err != nil {
-			a.metrics.ErrorHTTPRequests.Inc()
+			a.metrics.ErrorHTTPRequestsInc()
 		} else {
-			a.metrics.SuccessHTTPRequests.Inc()
+			a.metrics.SuccessHTTPRequestsInc()
 		}
 	}
 }
